@@ -21,5 +21,3 @@ config ZMK_SPLIT
     default y
 
 endif # SHIELD_SWIFTPAW_LEFT || SHIELD_SWIFTPAW_RIGHT
-
-source "Kconfig.zephyr"
