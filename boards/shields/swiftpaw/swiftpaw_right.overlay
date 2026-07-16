@@ -1,5 +1,6 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <zephyr/dt-bindings/pinctrl/nrf-pinctrl.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 #include "swiftpaw.dtsi"
 
 /*
@@ -61,6 +62,10 @@
         // swap-xy;
         // invert-x;
         // invert-y;
+
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
     };
 };
 
