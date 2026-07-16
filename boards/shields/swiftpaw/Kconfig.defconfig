@@ -3,6 +3,9 @@ if SHIELD_SWIFTPAW_LEFT
 config ZMK_KEYBOARD_NAME
     default "SwiftPaw"
 
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
 endif # SHIELD_SWIFTPAW_LEFT
 
 if SHIELD_SWIFTPAW_RIGHT
@@ -11,5 +14,12 @@ config ZMK_KEYBOARD_NAME
     default "SwiftPaw"
 
 endif # SHIELD_SWIFTPAW_RIGHT
+
+if SHIELD_SWIFTPAW_LEFT || SHIELD_SWIFTPAW_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif # SHIELD_SWIFTPAW_LEFT || SHIELD_SWIFTPAW_RIGHT
 
 source "Kconfig.zephyr"
