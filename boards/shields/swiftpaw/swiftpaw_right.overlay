@@ -1,0 +1,72 @@
+#include <dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/pinctrl/nrf-pinctrl.h>
+#include "swiftpaw.dtsi"
+
+/*
+ * PAW3395 module pinout you gave:
+ *   NCS  P0.17   (chip select)
+ *   MISO P0.20
+ *   MOSI P0.22
+ *   SCLK P0.24
+ *   MOT  P1.00   (motion/interrupt pin)
+ *
+ * Using SPI3 since it's the free high-speed SPIM instance on nice!nano v2.
+ */
+
+&pinctrl {
+    spi3_default: spi3_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 24)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 22)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 20)>;
+        };
+    };
+
+    spi3_sleep: spi3_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 24)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 22)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 20)>;
+            low-power-enable;
+        };
+    };
+};
+
+&spi3 {
+    compatible = "nordic,nrf-spim";
+    status = "okay";
+    pinctrl-0 = <&spi3_default>;
+    pinctrl-1 = <&spi3_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    cs-gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
+
+    /*
+     * NOTE: "pixart,paw3395" and the property names below (irq-gpios, cpi)
+     * follow the convention badjeff uses in his other Pixart sensor drivers
+     * (zmk-pmw3610-driver, zmk-adns9800-driver). Confirm the exact compatible
+     * string and property names against the .yaml files in
+     * dts/bindings/ of badjeff/zmk-paw3395-driver before you build -
+     * I wasn't able to pull that page directly to verify it word-for-word.
+     */
+    trackball: trackball@0 {
+        compatible = "pixart,paw3395";
+        status = "okay";
+        reg = <0>;
+        spi-max-frequency = <2000000>;
+
+        irq-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+
+        cpi = <800>;
+        // swap-xy;
+        // invert-x;
+        // invert-y;
+    };
+};
+
+/ {
+    trackball_listener: trackball_listener {
+        compatible = "zmk,input-listener";
+        device = <&trackball>;
+    };
+};

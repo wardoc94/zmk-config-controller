@@ -1,0 +1,12 @@
+---
+include:
+  - board: nice_nano_v2
+    shield: swiftpaw_left
+  - board: nice_nano_v2
+    shield: swiftpaw_right
+  - board: nice_nano_v2
+    shield: settings_reset
+  - board: nice_nano//zmk@2
+    shield: lily58_left
+  - board: nice_nano//zmk@2
+    shield: lily58_right

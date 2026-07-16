@@ -1,0 +1,5 @@
+config SHIELD_SWIFTPAW_LEFT
+    def_bool $(shield_is,swiftpaw_left)
+
+config SHIELD_SWIFTPAW_RIGHT
+    def_bool $(shield_is,swiftpaw_right)

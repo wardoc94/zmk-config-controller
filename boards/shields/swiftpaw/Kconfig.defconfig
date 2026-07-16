@@ -1,0 +1,15 @@
+if SHIELD_SWIFTPAW_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "SwiftPaw"
+
+endif # SHIELD_SWIFTPAW_LEFT
+
+if SHIELD_SWIFTPAW_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "SwiftPaw"
+
+endif # SHIELD_SWIFTPAW_RIGHT
+
+source "Kconfig.zephyr"
