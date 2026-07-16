@@ -8,26 +8,48 @@
         compatible = "zmk,keymap";
 
         default_layer {
-            // -----------------------------------------------------------------------------------
-            // |  1  |  2  |  3  |  4  |  5  |  6  |   |  7  |  8  |  9  |  0  |  -  |  =  |
-            // |  Q  |  W  |  E  |  R  |  T  |  Y  |   |  U  |  I  |  O  |  P  |  [  |  ]  |
-            // |  A  |  S  |  D  |  F  |  G  |  H  |   |  J  |  K  |  L  |  ;  |  '  |  \  |
-            // |  Z  |  X  |  C  |  V  |  B  | SHFT|   | LWR | SPC |  N  |  M  |  ,  |  .  |
+            // Left half: 24 matrix keys (4x6) + 4 joystick positions (up/down/left/right)
+            // Right half: 24 matrix keys (4x6)
+            //
+            // NOTE ON ORDERING: key "positions" in a combined split keymap are
+            // assigned block-sequentially - all of the central half's positions,
+            // in its own local matrix-transform order, THEN all of the
+            // peripheral's. So this list is laid out as: all 28 left positions
+            // first, then all 24 right positions. If testing shows keys land in
+            // the wrong spot (e.g. right-hand keys appearing on the left), tell
+            // me and I'll swap to an interleaved/col-offset transform instead -
+            // I can't 100% confirm this without you testing on real hardware.
             bindings = <
-&kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6      &kp N7    &kp N8   &kp N9    &kp N0    &kp MINUS  &kp EQUAL
-&kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y       &kp U     &kp I    &kp O     &kp P     &kp LBKT   &kp RBKT
-&kp A     &kp S     &kp D     &kp F     &kp G     &kp H       &kp J     &kp K    &kp L     &kp SEMI  &kp SQT    &kp BSLH
-&kp Z     &kp X     &kp C     &kp V     &kp B     &kp LSHFT   &mo 1     &kp SPACE &kp N    &kp M     &kp COMMA  &kp DOT
+// --- Left half, row by row ---
+&kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6
+&kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y
+&kp A     &kp S     &kp D     &kp F     &kp G     &kp H
+&kp Z     &kp X     &kp C     &kp V     &kp B     &kp LSHFT
+// --- Left half joystick: up, down, left, right ---
+&kp W     &kp S     &kp A     &kp D
+
+// --- Right half, row by row ---
+&kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS  &kp EQUAL
+&kp U     &kp I     &kp O     &kp P     &kp LBKT   &kp RBKT
+&kp J     &kp K     &kp L     &kp SEMI  &kp SQT    &kp BSLH
+&mo 1     &kp SPACE &kp N     &kp M     &kp COMMA  &kp DOT
             >;
         };
 
         lower_layer {
-            // Numbers/symbols on the left, arrows + mouse buttons on the right
             bindings = <
-&kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6      &kp F7    &kp F8    &kp F9   &kp F10   &kp F11    &kp F12
-&kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT &kp CARET   &kp HOME  &kp UP    &kp END   &trans   &trans     &trans
-&kp TILDE &kp GRAVE &trans    &trans    &trans    &trans      &kp LEFT  &kp DOWN  &kp RIGHT &trans   &trans     &trans
-&trans    &trans    &trans    &trans    &trans    &trans      &mo 1     &mkp LCLK &mkp MCLK &mkp RCLK &trans    &trans
+// --- Left half ---
+&kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6
+&kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT &kp CARET
+&kp TILDE &kp GRAVE &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans
+
+// --- Right half ---
+&kp F7    &kp F8    &kp F9    &kp F10   &kp F11    &kp F12
+&kp HOME  &kp UP    &kp END   &trans    &trans     &trans
+&kp LEFT  &kp DOWN  &kp RIGHT &trans    &trans     &trans
+&mo 1     &mkp LCLK &mkp MCLK &mkp RCLK &trans     &trans
             >;
         };
     };
