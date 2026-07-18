@@ -8,14 +8,21 @@
         compatible = "zmk,keymap";
 
         default_layer {
-            // Left half: 24 matrix keys (4x6) + 4 joystick positions (up/down/left/right)
-            // Right half: 24 matrix keys (4x6)
+            // Left half: 24 matrix keys (4x6) + 4 joystick positions (up/down/left/right) = 28
+            // Right half: 20 matrix keys (4x6, minus 2 leftmost keys on each of the
+            // bottom two rows) = 20
+            // Total: 48
+            //
+            // NOTE: moved &mo 1 from the right half's bottom-left (now physically
+            // removed) to the left half's bottom-right, replacing LSHFT - there
+            // wasn't a free slot to add it without removing something. Swap this
+            // around however you like once you've got a working build.
             //
             // NOTE ON ORDERING: key "positions" in a combined split keymap are
             // assigned block-sequentially - all of the central half's positions,
             // in its own local matrix-transform order, THEN all of the
             // peripheral's. So this list is laid out as: all 28 left positions
-            // first, then all 24 right positions. If testing shows keys land in
+            // first, then all 20 right positions. If testing shows keys land in
             // the wrong spot (e.g. right-hand keys appearing on the left), tell
             // me and I'll swap to an interleaved/col-offset transform instead -
             // I can't 100% confirm this without you testing on real hardware.
@@ -24,15 +31,15 @@
 &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6
 &kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y
 &kp A     &kp S     &kp D     &kp F     &kp G     &kp H
-&kp Z     &kp X     &kp C     &kp V     &kp B     &kp LSHFT
+&kp Z     &kp X     &kp C     &kp V     &kp B     &mo 1
 // --- Left half joystick: up, down, left, right ---
 &kp W     &kp S     &kp A     &kp D
 
-// --- Right half, row by row ---
+// --- Right half, row by row (bottom two rows now start at col 2) ---
 &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS  &kp EQUAL
 &kp U     &kp I     &kp O     &kp P     &kp LBKT   &kp RBKT
-&kp J     &kp K     &kp L     &kp SEMI  &kp SQT    &kp BSLH
-&mo 1     &kp SPACE &kp N     &kp M     &kp COMMA  &kp DOT
+                     &kp L    &kp SEMI  &kp SQT    &kp BSLH
+                     &kp N    &kp M     &kp COMMA  &kp DOT
             >;
         };
 
@@ -48,8 +55,8 @@
 // --- Right half ---
 &kp F7    &kp F8    &kp F9    &kp F10   &kp F11    &kp F12
 &kp HOME  &kp UP    &kp END   &trans    &trans     &trans
-&kp LEFT  &kp DOWN  &kp RIGHT &trans    &trans     &trans
-&mo 1     &mkp LCLK &mkp MCLK &mkp RCLK &trans     &trans
+                     &kp RIGHT &trans   &trans     &trans
+                     &mkp MCLK &mkp RCLK &trans    &trans
             >;
         };
     };

@@ -5,4 +5,6 @@ include:
   - board: nice_nano//zmk
     shield: swiftpaw_right
   - board: nice_nano//zmk
+    shield: swiftpaw_right_standalone
+  - board: nice_nano//zmk
     shield: settings_reset

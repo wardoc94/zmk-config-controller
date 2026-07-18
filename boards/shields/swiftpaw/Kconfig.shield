@@ -3,3 +3,6 @@ config SHIELD_SWIFTPAW_LEFT
 
 config SHIELD_SWIFTPAW_RIGHT
     def_bool $(shields_list_contains,swiftpaw_right)
+
+config SHIELD_SWIFTPAW_RIGHT_STANDALONE
+    def_bool $(shields_list_contains,swiftpaw_right_standalone)

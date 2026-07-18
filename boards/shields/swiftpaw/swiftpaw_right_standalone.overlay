@@ -1,0 +1,6 @@
+/*
+ * Standalone build of the right half for testing on its own (matrix + PAW3395)
+ * without needing the left half paired. Reuses the exact same hardware
+ * definitions as swiftpaw_right - only the keymap differs (no split combining).
+ */
+#include "swiftpaw_right.overlay"
