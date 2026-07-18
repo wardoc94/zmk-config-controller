@@ -25,7 +25,7 @@ endif # SHIELD_SWIFTPAW_LEFT || SHIELD_SWIFTPAW_RIGHT
 if SHIELD_SWIFTPAW_RIGHT_STANDALONE
 
 config ZMK_KEYBOARD_NAME
-    default "SwiftPaw Right (Standalone)"
+    default "SwiftPaw Solo"
 
 # Deliberately no ZMK_SPLIT default here - this shield is a full standalone
 # keyboard by itself for testing the right half (matrix + PAW3395) without
