@@ -5,10 +5,11 @@
 #include "swiftpaw.dtsi"
 
 /*
- * TMR joystick, wired to free ADC-capable pins (the matrix already uses
- * P0.31/P0.29/P0.02 as columns, so those are off-limits):
- *   X  P0.03  (AIN1)
- *   Y  P0.04  (AIN2)
+ * TMR joystick. P0.03/P0.04 aren't actually broken out on the nice!nano's
+ * header (only P0.02/P0.29/P0.31 are), so the matrix's Col 1/Col 2 were
+ * moved to P0.06/P0.08 (see swiftpaw.dtsi) to free these up instead:
+ *   X  P0.31  (AIN7)
+ *   Y  P0.29  (AIN5)
  *
  * Using the REAL zmk,kscan-joystick driver from
  * letmegobacktosleep/zmk-keyboard-joystick-wasd (verified source, not a
@@ -29,18 +30,18 @@
     #size-cells = <0>;
     status = "okay";
 
-    channel@1 {
-        reg = <1>;
-        zephyr,input-positive = <NRF_SAADC_AIN1>;
+    channel@7 {
+        reg = <7>;
+        zephyr,input-positive = <NRF_SAADC_AIN7>;
         zephyr,gain = "ADC_GAIN_1_6";
         zephyr,reference = "ADC_REF_INTERNAL";
         zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
         zephyr,resolution = <12>;
         zephyr,oversampling = <0>;
     };
-    channel@2 {
-        reg = <2>;
-        zephyr,input-positive = <NRF_SAADC_AIN2>;
+    channel@5 {
+        reg = <5>;
+        zephyr,input-positive = <NRF_SAADC_AIN5>;
         zephyr,gain = "ADC_GAIN_1_6";
         zephyr,reference = "ADC_REF_INTERNAL";
         zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
@@ -53,7 +54,7 @@
     kscan3: kscan_joystick {
         compatible = "zmk,kscan-joystick";
         status = "okay";
-        io-channels = <&adc 1>, <&adc 2>;   // X (P0.03) then Y (P0.04)
+        io-channels = <&adc 7>, <&adc 5>;   // X (P0.31) then Y (P0.29)
         poll-period-ms = <10>;
         idle-period-ms = <100>;
         angle-offset = <0>;                  // tune this once tested

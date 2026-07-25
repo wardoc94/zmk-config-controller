@@ -7,9 +7,16 @@
     };
 
     /*
-     * Both halves share this same matrix wiring, per the pinout you gave:
+     * Both halves share this same matrix wiring:
      *   Row 1 P1.04   Row 2 P1.06   Row 3 P0.10   Row 4 P0.09
-     *   Col 1 P0.31   Col 2 P0.29   Col 3 P0.02   Col 4 P1.15   Col 5 P1.13   Col 6 P1.11
+     *   Col 1 P0.06   Col 2 P0.08   Col 3 P0.02   Col 4 P1.15   Col 5 P1.13   Col 6 P1.11
+     *
+     * Col 1/Col 2 were moved off P0.31/P0.29 onto P0.06/P0.08 - those two are
+     * the nice!nano's only other free pins, needed to free up P0.31 (AIN7)
+     * and P0.29 (AIN5) for the left half's TMR joystick, since P0.02/P0.29/
+     * P0.31 are the ONLY ADC-capable pins actually broken out on this board
+     * (P0.03/P0.04/P0.05/P0.28/P0.30 exist on the nRF52840 chip but aren't
+     * exposed on the nice!nano's header).
      *
      * Assumed diode-direction: col2row (columns driven, rows read).
      * If your diodes are wired the other way, flip this to "row2col" and
@@ -28,8 +35,8 @@
             ;
 
         col-gpios
-            = <&gpio0 31 GPIO_ACTIVE_HIGH>
-            , <&gpio0 29 GPIO_ACTIVE_HIGH>
+            = <&gpio0 6 GPIO_ACTIVE_HIGH>
+            , <&gpio0 8 GPIO_ACTIVE_HIGH>
             , <&gpio0 2 GPIO_ACTIVE_HIGH>
             , <&gpio1 15 GPIO_ACTIVE_HIGH>
             , <&gpio1 13 GPIO_ACTIVE_HIGH>
