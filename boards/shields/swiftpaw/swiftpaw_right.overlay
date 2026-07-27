@@ -58,7 +58,7 @@
 
         irq-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
 
-        cpi = <800>;
+        cpi = <400>;
         // swap-xy;
         // invert-x;
         // invert-y;

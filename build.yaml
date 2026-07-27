@@ -2,9 +2,12 @@
 include:
   - board: nice_nano//zmk
     shield: swiftpaw_left
+	cmake-args: -DCONFIG_ZMK_POINTING=y
   - board: nice_nano//zmk
     shield: swiftpaw_right
+	cmake-args: -DCONFIG_ZMK_POINTING=y
   - board: nice_nano//zmk
     shield: swiftpaw_right_standalone
+	cmake-args: -DCONFIG_ZMK_POINTING=y
   - board: nice_nano//zmk
     shield: settings_reset
