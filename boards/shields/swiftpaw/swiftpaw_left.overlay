@@ -87,3 +87,12 @@
         zmk,matrix-transform = &split_transform;
     };
 };
+
+/*
+ * PAW3395 sensor lives on the right (peripheral) half - this side just
+ * needs to enable the listener to receive its relayed events (see
+ * swiftpaw.dtsi for the shared trackball_split/trackball_listener setup).
+ */
+&trackball_listener {
+    status = "okay";
+};

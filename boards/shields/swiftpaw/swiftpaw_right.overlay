@@ -19,3 +19,12 @@
         zmk,matrix-transform = &split_transform;
     };
 };
+
+/*
+ * Relay the real sensor's events out to the central via the split device
+ * (see swiftpaw.dtsi) - this side never emits HID directly, it just
+ * forwards raw movement to whichever half is central.
+ */
+&trackball_split {
+    device = <&trackball>;
+};

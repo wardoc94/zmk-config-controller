@@ -73,9 +73,10 @@
     };
 };
 
-/ {
-    trackball_listener: trackball_listener {
-        compatible = "zmk,input-listener";
-        device = <&trackball>;
-    };
-};
+/*
+ * NOTE: no trackball_listener here anymore - split and standalone builds
+ * need DIFFERENT listener setups now (split needs to relay through a
+ * zmk,input-split device to reach the central; standalone doesn't). Each
+ * of swiftpaw.dtsi (split) and swiftpaw_right_standalone.overlay defines
+ * its own appropriate listener.
+ */
