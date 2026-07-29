@@ -2,8 +2,6 @@
 include:
   - board: nice_nano//zmk
     shield: swiftpaw_left
-    snippet: zmk-usb-logging
-    artifact-name: swiftpaw_left_debug
   - board: nice_nano//zmk
     shield: swiftpaw_right
   - board: nice_nano//zmk

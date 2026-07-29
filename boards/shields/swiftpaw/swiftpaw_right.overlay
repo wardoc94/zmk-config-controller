@@ -21,10 +21,12 @@
 };
 
 /*
- * Relay the real sensor's events out to the central via the split device
- * (see swiftpaw.dtsi) - this side never emits HID directly, it just
- * forwards raw movement to whichever half is central.
+ * Right is now CENTRAL, co-located with the sensor - no relay needed
+ * anymore, just listen directly (same as the standalone build does).
  */
-&trackball_split {
-    device = <&trackball>;
+/ {
+    trackball_listener: trackball_listener {
+        compatible = "zmk,input-listener";
+        device = <&trackball>;
+    };
 };
