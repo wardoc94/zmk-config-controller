@@ -12,10 +12,11 @@
         compatible = "zmk,keymap";
 
         default_layer {
-            // Left half: 24 matrix keys (4x6) + 4 joystick positions = 28
+            // Left half: 24 matrix keys (4x6) + 4 joystick positions + 1 joystick
+            // button = 29
             // Right half: 20 matrix keys (4x6, minus 2 leftmost keys on each of the
             // bottom two rows) = 20
-            // Total: 48
+            // Total: 49
             //
             // Joystick is now multi-directional SCROLL (&msc) on this layer,
             // not WASD keys - up/down/left/right map to scroll up/down/left/
@@ -54,6 +55,8 @@
 // col2=left and col3=up are extrapolated from the same 90-degree clockwise
 // spacing - please verify those two once you've got a way to test them)
 &msc SCRL_RIGHT &msc SCRL_DOWN &msc SCRL_LEFT &msc SCRL_UP
+// --- Joystick button (P0.17) ---
+&kp SPACE
 
 // --- Right half, row by row (bottom two rows now start at col 2) ---
 &mkp LCLK &mkp RCLK &kp U     &kp I     &kp O      &kp P
@@ -84,6 +87,8 @@
 // Joystick as WASD on this layer (same clockwise column order as
 // default_layer's scroll: col0=right, col1=down, col2=left, col3=up)
 &kp D     &kp S     &kp A     &kp W
+// --- Joystick button (P0.17) ---
+&trans
 
 // --- Right half ---
 &mkp LCLK &mkp RCLK &kp TAB   &kp LALT  &kp PG_UP  &kp ESC

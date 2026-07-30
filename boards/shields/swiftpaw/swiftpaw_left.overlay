@@ -24,6 +24,10 @@
  * me what you're seeing (e.g. "up triggers D") and I'll adjust angle-offset
  * (in 90-degree steps for a start) rather than guess blind.
  */
+/*
+ * Joystick button - P0.17 (signal, pull-up/active-low), with a real GND
+ * pin nearby on the header.
+ */
 &adc {
     #io-channel-cells = <1>;
     #address-cells = <1>;
@@ -62,10 +66,17 @@
         thresholds = [0A];                   // single tier, default sensitivity
     };
 
+    kscan4: kscan_joystick_button {
+        compatible = "zmk,kscan-gpio-direct";
+        wakeup-source;
+        input-gpios = <&gpio0 17 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+    };
+
     /*
      * Combine the existing 4x6 matrix with the joystick's 4 directions
-     * into one logical kscan device, placed at row 4 (unused by the
-     * physical matrix), columns 0-3.
+     * and the joystick button into one logical kscan device, placed at
+     * row 4 (unused by the physical matrix): cols 0-3 for directions,
+     * col 4 for the button.
      */
     kscan_composite0: kscan_composite {
         compatible = "zmk,kscan-composite";
@@ -79,6 +90,12 @@
         joystick {
             kscan = <&kscan3>;
             row-offset = <4>;
+        };
+
+        joystick_button {
+            kscan = <&kscan4>;
+            row-offset = <4>;
+            col-offset = <4>;
         };
     };
 
