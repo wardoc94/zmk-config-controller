@@ -4,5 +4,7 @@ include:
     shield: swiftpaw_left
   - board: nice_nano//zmk
     shield: swiftpaw_right
+    snippet: zmk-usb-logging
+    artifact-name: swiftpaw_right_debug
   - board: nice_nano//zmk
     shield: settings_reset
