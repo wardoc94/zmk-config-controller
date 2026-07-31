@@ -62,6 +62,7 @@
         poll-period-ms = <10>;
         idle-period-ms = <100>;
         angle-offset = <0>;                  // tune this once tested
+        angle-overlap = <30>;                // diagonals press both adjacent directions
         n-directions = <4>;                  // up/down/left/right
         thresholds = [0A];                   // single tier, default sensitivity
     };
