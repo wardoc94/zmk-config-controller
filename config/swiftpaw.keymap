@@ -9,18 +9,6 @@
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 15
 
 / {
-    behaviors {
-        // Tap: toggle lower_layer (same as before). Hold: momentarily
-        // activate bt_layer while held, auto-releases back on letting go.
-        tog_bt: tog_bt {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            flavor = "tap-preferred";
-            bindings = <&mo>, <&tog>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -31,32 +19,26 @@
             // bottom two rows) = 20
             // Total: 49
             //
-            // Joystick is now multi-directional SCROLL (&msc) on this layer,
-            // not WASD keys - up/down/left/right map to scroll up/down/left/
-            // right respectively. Scroll step size set via
-            // ZMK_POINTING_DEFAULT_SCRL_VAL above - lower = finer/slower,
-            // higher = coarser/faster. Tune this once you've tested it.
+            // Joystick is multi-directional SCROLL (&msc) on this layer -
+            // up/down/left/right map to scroll up/down/left/right. Scroll
+            // step size set via ZMK_POINTING_DEFAULT_SCRL_VAL above.
             //
-            // Layer switch is a TOGGLE (&tog 1) instead of momentary hold
-            // (&mo 1) - tap once to enter lower_layer, tap again (bound at the
-            // same spot on lower_layer) to leave it.
+            // Two plain TOGGLE keys now (no more hold-tap): one for
+            // lower_layer, one for bt_layer - tap either to enter, tap
+            // again (bound at the same spot on that layer) to leave.
             //
             // FINNISH LAYOUT NOTE: ZMK keycodes are named after their US
             // keyboard POSITION, not the character they produce - the actual
             // character depends on your OS's active layout. Since you're on
-            // Finnish, these three were re-mapped (comments show what each
-            // actually types on a Finnish OS layout):
-            //   &kp FSLH    -> types "-"  (Finnish's "-" lives where US has "/")
-            //   &kp LS(N7)  -> types "/"  (Finnish's "/" is Shift+7)
-            //   &kp SQT     -> types "'"  (same physical spot on both layouts, unchanged)
+            // Finnish:
+            //   &kp FSLH -> types "-"  (Finnish's "-" lives where US has "/")
+            //   &kp SQT  -> types "'"  (same physical spot on both layouts, unchanged)
             //
             // NOTE ON ORDERING: key "positions" in a combined split keymap are
             // assigned block-sequentially - all of the central half's positions,
             // in its own local matrix-transform order, THEN all of the
-            // peripheral's. So this list is laid out as: all 28 left positions
-            // first, then all 20 right positions. If testing shows keys land in
-            // the wrong spot, tell me and I'll adjust the transform instead -
-            // I can't 100% confirm this without you testing on real hardware.
+            // peripheral's. So this list is laid out as: all 29 left positions
+            // first, then all 20 right positions.
             bindings = <
 // --- Left half, row by row ---
 &kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y
@@ -66,7 +48,7 @@
 // --- Left half joystick: columns are ordered by angle, clockwise starting
 // from physical right (confirmed empirically: col0=right, col1=down;
 // col2=left and col3=up are extrapolated from the same 90-degree clockwise
-// spacing - please verify those two once you've got a way to test them)
+// spacing) ---
 &msc SCRL_RIGHT &msc SCRL_DOWN &msc SCRL_LEFT &msc SCRL_UP
 // --- Joystick button (P0.17) ---
 &kp SPACE
@@ -75,7 +57,7 @@
 &mkp MB4  &mkp MB5  &kp U     &kp I     &kp O      &kp P
 &mkp LCLK &mkp RCLK &kp J     &kp K     &kp L      &kp BSPC
                      &kp M    &kp COMMA &kp DOT    &kp RET
-                     &kp FSLH &kp LS(N7) &kp SQT   &tog_bt 2 1
+                     &kp FSLH &kp SQT   &tog 1     &tog 2
             >;
         };
 
@@ -86,11 +68,12 @@
             //                    position (acute/grave accent key) - pressing
             //                    it may not immediately show a character until
             //                    you press another key (e.g. space) after it.
-            //                    If you just want a literal, immediately-typed
-            //                    backtick, this mapping may not behave the way
-            //                    a plain US GRAVE key does - flag it if it
-            //                    feels wrong and we can look at a macro
-            //                    (accent + space) instead.
+            //
+            // NOTE: this row's toggle slot only has room for &tog 1 (to get
+            // back to typing) - there's no spare slot here for a second
+            // BT-layer toggle like default_layer has (this row is already
+            // full with LEFT/DOWN/RIGHT). Use default_layer's &tog 2 to
+            // reach bt_layer instead.
             bindings = <
 // --- Left half ---
 &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6
@@ -107,14 +90,13 @@
 &mkp MB4  &mkp MB5  &kp TAB   &kp LALT  &kp PG_UP  &kp ESC
 &mkp LCLK &mkp RCLK &kp LSHFT &kp LCTRL &kp PG_DN  &kp BSPC
                      &kp LGUI &kp UP    &kp DEL    &kp RET
-                     &kp LEFT &kp DOWN  &kp RIGHT  &tog_bt 2 1
+                     &kp LEFT &kp DOWN  &kp RIGHT  &tog 1
             >;
         };
 
         bt_layer {
-            // Activated by HOLDING the layer-toggle key (tap still toggles
-            // lower_layer as before). Releases back automatically since
-            // this is a momentary (&mo) hold.
+            // Entered/exited by tapping &tog 2 (on default_layer's right
+            // bottom row) - a plain toggle now, no more hold-tap.
             bindings = <
 // --- Left half: row0 BT profile select 0-3 + clear current + clear all
 // (fits in one row of 6), row1 media transport + volume, row2 mute +
@@ -122,12 +104,12 @@
 &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_CLR &bt BT_CLR_ALL
 &kp C_PREV   &kp C_PP     &kp C_NEXT   &kp C_STOP   &kp C_VOL_DN &kp C_VOL_UP
 &kp C_MUTE   &kp C_BRI_DN &kp C_BRI_UP &trans       &trans       &trans
-&trans    &trans    // --- Joystick on this layer: up/down = volume, left/right = track skip
-// (col0=right, col1=down, col2=left, col3=up - confirmed clockwise order) ---
+&trans       &trans       &trans       &trans       &trans       &trans
+// --- Joystick on this layer: up/down = volume, left/right = track skip
+// (col0=right, col1=down, col2=left, col3=up) ---
 &kp C_NEXT &kp C_VOL_DN &kp C_PREV &kp C_VOL_UP
 // --- Joystick button: play/pause ---
-&kp C_PP    &trans    &trans    &trans
-&trans
+&kp C_PP
 
 // --- Right half: force output to USB or BLE (for debugging - lets you
 // keep USB plugged in for serial logs while HID output stays on BLE,
@@ -135,7 +117,7 @@
 &out OUT_USB &out OUT_BLE &trans &trans &trans &trans
 &trans &trans &trans &trans &trans &trans
               &trans &trans &trans &trans
-              &trans &trans &trans &trans
+              &trans &trans &tog 1 &tog 2
             >;
         };
     };
