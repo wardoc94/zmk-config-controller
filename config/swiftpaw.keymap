@@ -8,6 +8,18 @@
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 15
 
 / {
+    behaviors {
+        // Tap: toggle lower_layer (same as before). Hold: momentarily
+        // activate bt_layer while held, auto-releases back on letting go.
+        tog_bt: tog_bt {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            flavor = "tap-preferred";
+            bindings = <&tog>, <&mo>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -62,7 +74,7 @@
 &mkp MB4  &mkp MB5  &kp U     &kp I     &kp O      &kp P
 &mkp LCLK &mkp RCLK &kp J     &kp K     &kp L      &kp BSPC
                      &kp M    &kp COMMA &kp DOT    &kp RET
-                     &kp FSLH &kp LS(N7) &kp SQT   &tog 1
+                     &kp FSLH &kp LS(N7) &kp SQT   &tog_bt 1 2
             >;
         };
 
@@ -94,7 +106,30 @@
 &mkp MB4  &mkp MB5  &kp TAB   &kp LALT  &kp PG_UP  &kp ESC
 &mkp LCLK &mkp RCLK &kp LSHFT &kp LCTRL &kp PG_DN  &kp BSPC
                      &kp LGUI &kp UP    &kp DEL    &kp RET
-                     &kp LEFT &kp DOWN  &kp RIGHT  &tog 1
+                     &kp LEFT &kp DOWN  &kp RIGHT  &tog_bt 1 2
+            >;
+        };
+
+        bt_layer {
+            // Activated by HOLDING the layer-toggle key (tap still toggles
+            // lower_layer as before). Releases back automatically since
+            // this is a momentary (&mo) hold.
+            bindings = <
+// --- Left half: row0 BT profile select 0-3 + clear current + clear all
+// (fits in one row of 6), row1 media transport + volume, row2 mute +
+// brightness ---
+&bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_CLR &bt BT_CLR_ALL
+&kp C_PREV   &kp C_PP     &kp C_NEXT   &kp C_STOP   &kp C_VOL_DN &kp C_VOL_UP
+&kp C_MUTE   &kp C_BRI_DN &kp C_BRI_UP &trans       &trans       &trans
+&trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans
+&trans
+
+// --- Right half: nothing here, all transparent ---
+&trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans
+              &trans &trans &trans &trans
+              &trans &trans &trans &trans
             >;
         };
     };
