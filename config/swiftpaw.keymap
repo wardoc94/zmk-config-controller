@@ -77,9 +77,9 @@
             bindings = <
 // --- Left half ---
 &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6
-&kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
 &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6
 &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp LS(EQUAL)
+&kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
 // Joystick as WASD on this layer (same clockwise column order as
 // default_layer's scroll: col0=right, col1=down, col2=left, col3=up)
 &kp D     &kp S     &kp A     &kp W
